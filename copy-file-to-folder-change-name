@@ -1,0 +1,16 @@
+// take a google sheet file and move it to a folder and add the date to the new file's name
+// needs to be edited if your google sheet uses =importrange or query. better to copy as values which is not in this script
+
+function CopyNMove() {
+  // Generate timestamp and store it in variable formattedDate as yy-mm-dd h-m-s
+  var formattedDate = Utilities.formatDate(new Date(), 'GMT', 'MM-dd-yyyy');
+
+  // Get name of the original file and append the timestamp stored in formattedDate
+  var saveAs = `${SpreadsheetApp.getActiveSpreadsheet().getName()} - ${formattedDate}`;
+
+  // Get the destination folder by name
+  var destinationFolder = DriveApp.getFoldersByName("<FOLDER NAME>").next();
+
+  // Make a copy of the current spreadsheet file and save it in the destination folder with the new name
+  var newFile = DriveApp.getFileById(SpreadsheetApp.getActiveSpreadsheet().getId()).makeCopy(saveAs, destinationFolder);  
+}
