@@ -1,0 +1,24 @@
+function importCSVFromGmail() {
+
+  var threads = GmailApp.search("<EMAIL SUBJECT>"); // enter search criteria here
+  var messages = threads[0].getMessages();
+  var message = messages[messages.length - 1];  // Takes the last thread in the email chain
+  var attachment = message.getAttachments()[0];  
+
+  // Is the attachment a CSV file
+      attachment.setContentTypeFromExtension();
+      if (attachment.getContentType() === "text/csv") {
+          var sheet = SpreadsheetApp.openById('<SHEET ID>').getSheetByName('Sheet Name');
+          var csvData = Utilities.parseCsv(attachment.getDataAsString(), ",");
+
+          // Remember to clear the content of the sheet before importing new data
+          sheet.clearContents().clearFormats();
+          sheet.getRange(1, 1, csvData.length, csvData[0].length).setValues(csvData); // Clears out existing data and replaces w new CSV
+      }
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var s = ss.getSheetByName('<SHEET NAME>'); // The following code is used to give me a timestamp of when the sheet is last updated. 
+  
+  var lastUpdated = getLastUpdatedTime('<SHEET ID>');
+  s.getRange('B2').setValue(lastUpdated); // Can change range to desired cell // i run this to know when my script last ran and reference it to a different google sheet tab named last updated
+
+  }
