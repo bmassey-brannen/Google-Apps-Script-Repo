@@ -1,6 +1,7 @@
 // I use this script if I want to create a running list 
 // Say I use a =query formula, this is "live" formula that can change at any time. 
 // I want to use the function below to capture a snapshot in time and add to a running list
+// I then delete the data the query is pulling from so I am not capturing duplicates
 
 function captureNewHires() {
    var ss = SpreadsheetApp.getActiveSpreadsheet();
