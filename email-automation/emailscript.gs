@@ -16,9 +16,11 @@ function send_Email(){
   for(const [index, row] of data.entries()) {
     const line = index + 2; // Rows vector starts at 0 so we should first read the second line
     
-    // if email has not been sent yet. This is the logic I used but can be adjusted to your prefereance. I wanted it to be like fort knox and not accidentally send messages if I didn't want them to
+    // if email has not been sent yet. This is the logic I used but can be adjusted to your prefereance. 
+    // I wanted it to be like fort knox and not accidentally send messages if I didn't want them to
+    // adjust logic as needed
 
-    // logic section referenced in lines 43-47
+    // logic section
       if(row[<Enter the col # but subtract 1 (column A = 0, B=1, etc...)>] === "Not Sent" 
       && row[<Enter the col # but subtract 1 (column A = 0, B=1, etc...)>] !== "Sent" 
       && row[<Enter the col # but subtract 1 (column A = 0, B=1, etc...)>] !== "DO NOT SEND" 
@@ -43,7 +45,7 @@ function send_Email(){
       GmailApp.sendEmail(recipient, subject, message, {from: emailSender, htmlBody: message}); //GmailApp allowed me to send as an alias (has to be configured in your gmail settings)
 
 
-    // I wanted to change the google sheet to show "Sent" in all of the fields I referenced in lines 19-23. This is the opposite of the Col # -1 = row[].
+    // I wanted to change the google sheet to show "Sent" in all of the fields I referenced in lines 24-27. This is the opposite of the Col # -1 = row[].
     // in this case line,1 = column A, line 2 = B. can be confusing at first but it is an important distinction when trouble shooting
       sheet.getRange(line,1).setValue("Sent");
       sheet.getRange(line,2).setValue("Sent");
