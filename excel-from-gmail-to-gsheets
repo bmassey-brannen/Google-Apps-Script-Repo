@@ -1,0 +1,24 @@
+// Pull excel from gmail
+// the typing is different from the csv file so make sure to use this function to pull excel from gmail to google sheet
+
+function excelFileImport() {
+  var threads = GmailApp.search('subject:'); // enter search criteria here
+  var messages = threads[0].getMessages();
+  var message = messages[messages.length - 1];  // Takes the last thread in the email chain
+  // var attachment = message.getAttachments()[0];  
+  var sheetID = '<sheet ID>';
+  var sheetNameID = 'sheetname';
+ 
+  var attachment =  message.getAttachments()[0];   // Is supposes that attachments[0] is the blob of xlsx file.
+  var file = DriveApp.createFile(attachment);
+  var convertedSpreadsheetId = Drive.Files.insert({mimeType: MimeType.GOOGLE_SHEETS}, file).id;
+  file.setTrashed(true);
+  var sheet = SpreadsheetApp.openById(convertedSpreadsheetId).getSheets()[0]; // There is the data in 1st tab.
+  var data = sheet.getDataRange().getValues();
+  Drive.Files.remove(convertedSpreadsheetId); // Remove the converted file.
+
+  var sheet = SpreadsheetApp.openById(sheetID).getSheetByName(sheetNameID);
+  sheet.clearContents()
+  var range = sheet.getRange(1, 1, data.length, data[0].length);
+  range.setValues(data); 
+}
